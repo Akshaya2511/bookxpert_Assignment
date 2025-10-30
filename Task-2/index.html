@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Recipe Chatbot</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; background: #fafafa; }
+    textarea { width: 300px; height: 60px; }
+    button { margin-top: 10px; }
+    pre { background: #eee; padding: 10px; width: 350px; }
+  </style>
+</head>
+<body>
+  <h2>🍳 Recipe Chatbot</h2>
+  <textarea id="input" placeholder="Enter ingredients..."></textarea><br>
+  <button onclick="ask()">Get Recipe</button>
+  <pre id="output"></pre>
+
+  <script>
+  async function ask() {
+    const ingredients = document.getElementById('input').value;
+    const res = await fetch('http://127.0.0.1:8000/ask/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ingredients})
+    });
+    const data = await res.json();
+    document.getElementById('output').textContent = data.suggested_recipe;
+  }
+  </script>
+</body>
+</html>
